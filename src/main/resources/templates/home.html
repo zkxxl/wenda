@@ -1,0 +1,51 @@
+<html>
+    <body>
+        <pre>
+            $!{value1}
+            $!{value2}  ## !的意思是如果变量不存在强制为空
+            ${value3}   ## 不加!，如果变量不存在则将当为文本来解析
+
+            color: $!{colors}
+
+            #foreach($color in $colors)
+                this is color $!{foreach.index}: $!{color} $!{foreach.count}
+            #end
+
+            #foreach($key in $map.keySet())
+                key : $key   value: $!{map.get($key)}
+            #end
+
+            #foreach($kv in $map.entrySet())
+                key : $!{kv.getKey()}   value: $!{kv.getValue()}
+            #end
+
+            User： ${user.name}
+            ${user.description}  ## 自动去匹配 字段或者方法( isDescription() or getDescription() )
+            ${user.getDescription()}
+
+            ##定义变量
+            #set($title="newCoder")
+            this is $!{title}
+
+            ##引入文件
+            Parse : #parse("heard.html")   ##会解析里面的变量
+            Include : #include("heard.html")  ##不会解析，直接将heard里面的文本复制过来
+
+            ##宏 - 批量替换
+            #macro(render_color,$index,$color)
+                Color render macro $index ,$color
+            #end
+
+            #foreach($color in $colors)
+                #render_color($foreach.index,$color)
+            #end
+
+            #set($hello="hello")
+            #set($helloworld1= "$!{hello} world")   ##模板会解析双引号里的
+            #set($helloworld2='$!{hello} world')    ##不会解析单引号
+
+            $helloworld1
+            $helloworld2
+        </pre>
+    </body>
+</html>
