@@ -1,5 +1,6 @@
 package com.z.kwenda.aspect;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -16,7 +17,11 @@ public class LogAspect {
     private static final Logger logger=LoggerFactory.getLogger(LogAspect.class);
 
     @Before("execution(* com.z.kwenda.controller.IndexController.*(..))")
-    public void beforeMethod(){
+    public void beforeMethod(JoinPoint joinPoint){
+        StringBuilder sb=new StringBuilder();
+        for(Object arg:joinPoint.getArgs()){
+            sb.append("args:"+arg.toString()+" | ");
+        }
         logger.info("before method "+new Date());
     }
     @After("execution(* com.z.kwenda.controller.IndexController.*(..))")

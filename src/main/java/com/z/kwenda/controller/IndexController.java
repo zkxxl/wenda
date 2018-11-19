@@ -2,6 +2,8 @@ package com.z.kwenda.controller;
 
 
 import com.z.kwenda.model.User;
+import com.z.kwenda.service.WendaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +19,16 @@ import java.util.*;
 @Controller
 public class IndexController {
 
+    //    WendaService wendaService=new WendaService();
+
+    //注入，就无需初始化了
+    @Autowired
+    WendaService wendaService;
+
     @RequestMapping(path={"/","/index"},method={RequestMethod.GET})
     @ResponseBody
     public String Index(HttpSession httpSession){
-        return "Hello NewCoder "+httpSession.getAttribute("meg");
+        return wendaService.getMessage(2)+"Hello NewCoder "+httpSession.getAttribute("meg");
     }
 
     @RequestMapping("/profile/{groupId}/{userId}")
