@@ -25,6 +25,32 @@ public class IndexController {
     @Autowired
     WendaService wendaService;
 
+    //给一个字符串,求全排列
+    @RequestMapping("/permutations")
+    @ResponseBody
+    public int permutations(@RequestParam(value="str") String str){
+        ArrayList<String> al=new ArrayList<>();
+        char[] chs=str.toCharArray();
+        fullPermutation(al,chs,0);
+        for(String s:al){
+            System.out.println(s);
+        }
+        return al.size();
+    }
+    public void fullPermutation(ArrayList<String> al,char[] chs,int start){
+        if(start==chs.length-1){
+            al.add(String.valueOf(chs));
+        }else{
+            for(int i=start;i<chs.length;i++){
+                char temp=chs[start];
+                chs[start]=chs[i];
+                chs[i]=temp;
+
+                fullPermutation(al,chs,start+1);
+            }
+        }
+    }
+
     @RequestMapping(path={"/","/index"},method={RequestMethod.GET})
     @ResponseBody
     public String Index(HttpSession httpSession){
