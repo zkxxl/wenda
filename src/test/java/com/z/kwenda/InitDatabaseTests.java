@@ -57,8 +57,8 @@ public class InitDatabaseTests {
             questionDAO.addQuestion(question);
         }
         Assert.assertEquals("xx",userDAO.selectById(1).getPassword());
-        userDAO.deleteById(1);
-        Assert.assertNull(userDAO.selectById(1));
+//        userDAO.deleteById(1);
+//        Assert.assertNull(userDAO.selectById(1));
 
         System.out.println(questionDAO.selectLatestQuestions(0,0,10));
     }

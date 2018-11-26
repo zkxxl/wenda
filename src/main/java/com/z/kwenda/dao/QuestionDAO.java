@@ -1,7 +1,6 @@
 package com.z.kwenda.dao;
 
 import com.z.kwenda.model.Question;
-import com.z.kwenda.model.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

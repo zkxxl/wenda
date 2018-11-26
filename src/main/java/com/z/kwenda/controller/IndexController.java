@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
-@Controller
+//@Controller
 public class IndexController {
 
     //    WendaService wendaService=new WendaService();
@@ -51,7 +51,7 @@ public class IndexController {
         }
     }
 
-    @RequestMapping(path={"/","/index"},method={RequestMethod.GET})
+    @RequestMapping(path={"/s","/indexs"},method={RequestMethod.GET})
     @ResponseBody
     public String Index(HttpSession httpSession){
         return wendaService.getMessage(2)+"Hello NewCoder "+httpSession.getAttribute("meg");
