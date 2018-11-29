@@ -11,6 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Date;
 import java.util.Map;
@@ -27,6 +30,10 @@ public class UserService {
 
     @Autowired
     LoginTicketDAO loginTicketDAO;
+
+    public void logout(String ticket){
+        loginTicketDAO.updateStatus(ticket,1);
+    }
 
     public String addLoginTicket(int userId){
         LoginTicket loginTicket=new LoginTicket();
