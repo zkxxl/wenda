@@ -2,6 +2,7 @@ package com.z.kwenda.controller;
 
 import com.z.kwenda.dao.LoginTicketDAO;
 import com.z.kwenda.service.UserService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,8 @@ public class LoginController {
     UserService userService;
 
     @RequestMapping(path = {"/reglogin"},method = {RequestMethod.GET})
-    public String reg(Model model){
+    public String reg(Model model,@RequestParam(value="next",required = false) String next){
+        model.addAttribute("next",next);
         return "login";
     }
 
@@ -37,13 +39,21 @@ public class LoginController {
     @RequestMapping(path = {"/reg/"},method = {RequestMethod.POST})
     public String reg(Model model, @RequestParam("username") String username,
                       @RequestParam("password") String password,
+                      @RequestParam(value="next") String next,
+                      @RequestParam(value="rememberme", defaultValue = "false") boolean rememberme,
                       HttpServletResponse response){
         try {
             Map<String,String> map=userService.regist(username, password);
             if (map.containsKey("ticket")) {
                 Cookie cookie=new Cookie("ticket",map.get("ticket"));
                 cookie.setPath("/");
+                if(rememberme){
+                    cookie.setMaxAge(3600*24*5);
+                }
                 response.addCookie(cookie);
+                if(StringUtils.isNotBlank(next)){
+                    return "redirect:"+next;
+                }
                 return "redirect:/";
             }else{
                 model.addAttribute("msg", map.get("msg"));
@@ -58,6 +68,7 @@ public class LoginController {
     @RequestMapping(path = {"/login/"},method = {RequestMethod.POST})
     public String login(Model model, @RequestParam("username") String username,
                         @RequestParam("password") String password,
+                        @RequestParam(value="next",required = false) String next,
                         @RequestParam(value = "rememberme",defaultValue = "false") boolean rememberme,
                         HttpServletResponse response){
         try {
@@ -65,7 +76,13 @@ public class LoginController {
             if (map.containsKey("ticket")) {
                 Cookie cookie=new Cookie("ticket",map.get("ticket"));
                 cookie.setPath("/");
+                if(rememberme){
+                    cookie.setMaxAge(3600*24*5);
+                }
                 response.addCookie(cookie);
+                if(StringUtils.isNotBlank(next)){
+                    return "redirect:"+next;
+                }
                 return "redirect:/";
             }else{
                 model.addAttribute("msg", map.get("msg"));

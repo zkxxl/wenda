@@ -13,6 +13,6 @@ public class QuestionService {
     QuestionDAO questionDAO;
 
     public List<Question> getLastestQuestion(int userId, int offset, int limit){
-        return questionDAO.selectLatestQuestions(0,0,10);
+        return questionDAO.selectLatestQuestions(userId,offset,limit);
     }
 }
